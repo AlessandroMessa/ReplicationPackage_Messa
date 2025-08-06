@@ -1,0 +1,5 @@
+Hublike su com.regent.rpush.dto.route.config, ho provato a creare sotto pkg come gli smells prima ma la situazione è peggiorata.
+Da 4 smells sono passato a 6, e lo smell in analisi in questa iterazione si è solo spostato al sotto package com.regent.rpush.dto.route.config.query, la cosa positiva è che ora ha size 8. provo a rimuoverlo.
+Ok ho dovuto creare altri sotto package  _query.field e _query.table e così facendo ho risolto lo smell. 
+Ho deciso di fare così perchè tra i fan in/out solo controller usava entrambe le classi, quindi la divisione in sotto package per forza di cose porta ad una riduzione del fan.
+Gli smells sono passati a 5. Mi si sono aggiunti gli hub su com.regent.rpush.route.service e su com.regent.rpush.server.socket.session.

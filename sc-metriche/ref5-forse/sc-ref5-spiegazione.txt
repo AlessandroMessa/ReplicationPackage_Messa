@@ -1,0 +1,80 @@
+Titolo
+Spezzare la dipendenza circolare tra Feign Client e fallback Hystrix con una FallbackFactory
+
+Abstract
+In questa breve sintesi descriviamo il problema del ciclo di dipendenze tra il bean FeignClient e il suo Hystrix-fallback, e la soluzione adottata tramite l’introduzione di una FallbackFactory. Grazie a questo pattern si ottiene un wiring dei bean pulito, privo di loop, con logica di fallback centralizzata e facilmente testabile.
+
+1. Introduzione
+Spring Boot e Feign offrono un’integrazione semplice per chiamate HTTP remote e resilienza tramite Hystrix. Tuttavia, configurare un fallback diretto con fallback = MyHystrix.class può generare un circolo di dipendenze a runtime se il fallback stesso viene registrato come bean.
+
+2. Problema
+Interfaccia FeignClient
+
+Annotata con @FeignClient(..., fallback = AuthRemoteClientHystrix.class)
+
+Classe di fallback
+
+Annotata con @Component e implementa AuthRemoteClient
+
+Effetto collaterale
+
+Spring tenta di creare contemporaneamente il bean FeignClient e il bean Hystrix fallback, che a sua volta dipende dal client: circular reference → failure in avvio del contesto.
+
+3. Obiettivi
+Eliminare completamente il ciclo di dipendenze a livello di Spring.
+
+Non “sporcare” l’interfaccia Feign con logica aggiuntiva.
+
+Mantenere la possibilità di accedere alla causa d’errore (Throwable cause) e iniettare eventuali dipendenze utili per metrificazione o logging.
+
+4. Soluzione proposta: FallbackFactory
+Rimuovere @Component da AuthRemoteClientHystrix, trasformandola in una semplice classe di fallback non gestita da Spring.
+
+Creare una classe AuthRemoteClientFallbackFactory che implementa FallbackFactory<AuthRemoteClient>, marcata @Component.
+
+Configurare l’interfaccia Feign con fallbackFactory = AuthRemoteClientFallbackFactory.class anziché fallback.
+
+5. Dettagli di implementazione
+FallbackFactory
+
+java
+Copia
+Modifica
+@Component
+public class AuthRemoteClientFallbackFactory
+    implements FallbackFactory<AuthRemoteClient> {
+    @Override
+    public AuthRemoteClient create(Throwable cause) {
+        // Log della causa
+        return new AuthRemoteClientHystrix(/* eventuali parametri */);
+    }
+}
+Hystrix fallback
+
+java
+Copia
+Modifica
+public class AuthRemoteClientHystrix implements AuthRemoteClient {
+    @Override public User findUserByName(String u) { ... }
+    // altri metodi
+}
+FeignClient
+
+java
+Copia
+Modifica
+@FeignClient(
+  name = "provider",
+  path = "auth",
+  fallbackFactory = AuthRemoteClientFallbackFactory.class
+)
+public interface AuthRemoteClient { ... }
+6. Vantaggi
+Nessuna dipendenza circolare: solo la factory è un bean Spring, il fallback viene creato a runtime.
+
+Causa dell’errore accessibile: utile per log, metriche, escalation.
+
+Fallback isolato: codice pulito, facilmente testabile senza wiring complessi.
+
+7. Conclusioni
+L’uso del pattern FallbackFactory è la soluzione più robusta per gestire fallback Hystrix in Feign, garantendo un contesto Spring privo di loop, centralizzando la logica di resilienza e mantenendo la chiarezza architetturale tipica di un’applicazione enterprise.

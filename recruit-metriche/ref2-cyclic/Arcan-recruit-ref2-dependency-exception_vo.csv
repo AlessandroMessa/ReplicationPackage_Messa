@@ -1,0 +1,3 @@
+"File","Dependant (Out)","Depends upon (In)","Weight"
+"microservice-recruit/pf-message/src/main/java/com/stalary/pf/message/exception/ExceptionHandle.java","com.stalary.pf.message.exception.ExceptionHandle","com.stalary.pf.message.data.vo.ResponseMessage, com.stalary.pf.message.data.vo.ResponseMessage","3"
+".","com.stalary.pf.message.exception","com.stalary.pf.message.data.vo","1"

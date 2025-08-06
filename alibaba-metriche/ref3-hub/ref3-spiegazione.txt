@@ -1,0 +1,113 @@
+ Rifattorizzazione di uno Hub-Like Dependency Smell in PromotionProduct
+🔍 Contesto iniziale
+Nel modulo mall-domain, la classe PromotionProduct rappresentava un aggregato ricco di dipendenze dirette, ereditando da PmsProduct e contenendo tre liste relative a:
+
+stock (PmsSkuStock)
+
+sconti a scaglione (PmsProductLadder)
+
+riduzioni sul prezzo (PmsProductFullReduction)
+
+java
+Copia
+Modifica
+public class PromotionProduct extends PmsProduct {
+    private List<PmsSkuStock> skuStockList;
+    private List<PmsProductLadder> productLadderList;
+    private List<PmsProductFullReduction> productFullReductionList;
+}
+Questa struttura ha fatto emergere, tramite Arcan, un Hub-Like Dependency smell, caratterizzato da:
+
+elevato fan-out (dipendenza diretta da molte classi),
+
+bassa coesione interna (responsabilità miste),
+
+difficoltà di riuso e test.
+
+🔧 Strategia di refactoring
+Per rimuovere il problema, si è adottata una strategia in due fasi:
+
+Sostituzione dell’ereditarietà con composizione:
+
+PromotionProduct non estende più PmsProduct, ma lo incapsula come campo.
+
+Introduzione di una struttura modulare per le promozioni:
+
+Le responsabilità relative a sconti e stock sono state spostate nella nuova classe PromotionRules, suddivisa in tre sotto-componenti:
+
+StockPolicy
+
+DiscountPolicy
+
+ReductionPolicy
+
+java
+Copia
+Modifica
+public class PromotionProduct {
+    private PmsProduct product;
+    private PromotionRules promotionRules;
+}
+✅ Risultato: rimozione dello Hub-Like Dependency
+Questa rifattorizzazione ha comportato:
+
+una riduzione del Technical Debt (TD) secondo Arcan,
+
+una minore instabilità architetturale nella classe PromotionProduct,
+
+una migliore separazione delle responsabilità, più aderente ai principi SOLID (in particolare Single Responsibility e Open/Closed).
+
+⚠️ Effetto collaterale: comparsa di uno Unstable Dependency smell nel modulo portal
+Dopo il refactoring, il modulo com.mtcarpenter.mall.portal ha iniziato a dipendere dal pacchetto com.mtcarpenter.mall.domain.promotion, che è ora più instabile perché contiene classi che possono evolvere (le policy di promozione).
+
+Questo ha introdotto un debole Unstable Dependency smell, ma è architetturalmente accettabile, poiché:
+
+il modulo portal agisce come modulo UI/di presentazione, e quindi è normale che dipenda da modelli di dominio stabili e/o instabili;
+
+le nuove classi introdotte sono ben separate e modulabili;
+
+l'accoppiamento è controllato e localizzato all'interno di poche entry point (es. getPromotionProductList nel controller).
+
+🎯 Conclusione
+Il refactoring ha permesso di:
+
+eliminare un code smell architetturalmente critico (Hub),
+
+ridurre il peso architetturale di una classe centrale,
+
+migliorare la manutenibilità e testabilità del codice,
+
+accettare un compromesso consapevole (Unstable Dependency localizzato) a favore della modularità e coesione.
+
+📉 Technical Debt complessivo: Ridotto
+
+
+ Eliminazione dello Hub-like Dependency nella classe PromotionProduct
+Durante l’analisi architetturale del progetto con Arcan, è stato rilevato uno smell di tipo Hub-like Dependency nella classe PromotionProduct. Questo smell si manifesta tipicamente in presenza di classi che fungono da nodo centrale nel grafo delle dipendenze, con elevato fan-out e una bassa coesione interna. In particolare, PromotionProduct estendeva la classe PmsProduct e incorporava direttamente tre liste eterogenee relative a informazioni di stock, sconti a scaglione e riduzioni sul prezzo, violando così il principio di Responsabilità Singola (SRP) di SOLID.
+
+Per rimuovere lo smell, è stata effettuata una rifattorizzazione strutturale basata sui suggerimenti del tool Arcan e delle tecniche documentate nella sua guida ufficiale. La strategia seguita ha previsto:
+
+la sostituzione dell’ereditarietà con composizione, incapsulando PmsProduct come attributo della nuova PromotionProduct;
+
+l’introduzione di una struttura modulare PromotionRules, che a sua volta è stata suddivisa in tre componenti: StockPolicy, DiscountPolicy e ReductionPolicy.
+
+Questo approccio ha permesso di migliorare la modularità della classe, ridurre il peso architetturale associato, e semplificare la futura evoluzione del codice, in linea con il principio di Open/Closed (OCP).
+
+Di seguito la nuova struttura:
+
+java
+Copia
+Modifica
+public class PromotionProduct {
+    private PmsProduct product;
+    private PromotionRules promotionRules;
+}
+La rifattorizzazione ha portato a una riduzione significativa del Technical Debt (TD) associato al modulo domain, secondo le metriche fornite da Arcan. Tuttavia, come effetto collaterale, è comparso un lieve Unstable Dependency smell nel modulo mall.portal, ora dipendente dal nuovo package domain.promotion.
+
+Tale dipendenza instabile è risultata accettabile per due motivi:
+
+il modulo portal svolge un ruolo di presentazione e orchestrazione, che giustifica la dipendenza da classi di dominio;
+
+le nuove classi promozionali sono coese, incapsulate e facilmente sostituibili, riducendo il rischio di propagazione delle modifiche.
+
+In sintesi, la rifattorizzazione ha raggiunto l’obiettivo principale: eliminare uno smell strutturalmente critico, migliorando la qualità architetturale del sistema e accettando un compromesso localizzato e giustificato. Questo intervento ha rappresentato un trade-off consapevole tra stabilità e modularità, principio chiave nella gestione tecnica del debito architetturale.

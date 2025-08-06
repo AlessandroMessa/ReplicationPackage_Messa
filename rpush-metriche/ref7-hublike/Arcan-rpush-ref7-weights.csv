@@ -1,0 +1,5 @@
+File;Dependant (Out);Depends upon (In);Weight
+rpush/rpush-dto/src/main/java/com/regent/rpush/dto/route/config/UpdateConfigDTO.java;com.regent.rpush.dto.route.config.UpdateConfigDTO;com.regent.rpush.dto.enumration.MessagePlatformEnum, com.regent.rpush.dto.enumration.MessagePlatformEnum;1
+rpush/rpush-dto/src/main/java/com/regent/rpush/dto/route/config/ConfigFieldVO.java;com.regent.rpush.dto.route.config.ConfigFieldVO;com.regent.rpush.dto.common.IdStrAndName, com.regent.rpush.dto.common.config.ConfigValueType, com.regent.rpush.dto.common.IdStrAndName, com.regent.rpush.dto.common.config.ConfigValueType;1
+rpush/rpush-dto/src/main/java/com/regent/rpush/dto/route/config/ConfigTableDTO.java;com.regent.rpush.dto.route.config.ConfigTableDTO;com.regent.rpush.dto.table.Pagination, com.regent.rpush.dto.table.Pagination;2
+.;com.regent.rpush.dto.route.config;com.regent.rpush.dto.enumration, com.regent.rpush.dto.common, com.regent.rpush.dto.common.config, com.regent.rpush.dto.table;1

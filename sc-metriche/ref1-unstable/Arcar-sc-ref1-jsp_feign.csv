@@ -1,0 +1,3 @@
+"File","Dependant (Out)","Depends upon (In)","Weight"
+"sc/sc-consumer-jsp/src/main/java/com/wangxin/consumer/jsp/web/controller/simple/NewsController.java","com.wangxin.consumer.jsp.web.controller.simple.NewsController","com.wangxin.feign.web.remote.simple.NewsRemoteClient, com.wangxin.feign.web.remote.simple.NewsRemoteClient","1"
+".","com.wangxin.consumer.jsp","com.wangxin.feign","1"

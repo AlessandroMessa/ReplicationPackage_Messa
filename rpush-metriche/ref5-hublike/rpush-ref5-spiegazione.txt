@@ -1,0 +1,51 @@
+La spiegazione fa un po' cagare, in sostanza l'hub su com.regent.rpush.route.service ha un size enorme, mi viene difficile risolverlo, ho provato a separare una classe ( quella con fan in alto) ma questo modo di procedere non mi avrebbe aiutato. Ho quindi separato tutti i service ( e le loro implementazioni ) in sotto package ( mi preparo a una scissione in più microservizi) ed ho ottenuto che l'hub si è spostato.
+Ho due nuovi hub, su _utils e su _config ed il td è aumentato di molto. 
+Inoltre avendo refactorizzato la classe il precendente hub su com.regent.rpush.route.service.IRpushPlatformConfigService si è spostato su:com.regent.rpush.route.service.config.query.IRpushConfigQueryService
+
+
+
+Ecco un riepilogo dei passaggi che abbiamo seguito per eliminare lo “smell” di Hub-Like e preparare il terreno per un’eventuale migrazione a microservizi:
+
+Identificazione dello Smell
+
+Arcan segnalava com.regent.rpush.route.service come hub-like (fan-in/out troppo elevati).
+
+Split “Query” vs “Command”
+
+Estratti due servizi distinti:
+
+Query Service (IRpushConfigQueryServiceImpl in service.query) → tutti i metodi di sola lettura/paginazione.
+
+Command Service (IRpushConfigCommandServiceImpl in service.command) → tutti i metodi di create/update/delete.
+
+(Opzionale) Facade
+
+Proposto un “facade” per mantenere un’unica interfaccia, ma poi abbiamo scelto di eliminarlo e di iniettare direttamente i due servizi nei controller.
+
+Refactoring dei Utilities
+
+Il package …route.utils era diventato un mini-hub: lo abbiamo smembrato in sotto-package con responsabilità singole, ad es.:
+
+infrastructure.persistence.query.Qw
+
+infrastructure.pagination.PaginationUtil
+
+infrastructure.session.SessionUtils
+
+application.message.MessageHandlerUtils
+
+Smembramento dei DTO
+
+Il package …dto.route.config è stato suddiviso in lettura vs scrittura (query vs command) per ridurre le dimensioni di ogni pacchetto.
+
+Verifica continua con Arcan
+
+Ad ogni refactoring abbiamo rilanciato Arcan, smembrando ogni nuovo hub-like emergente finché nessun package superava più la soglia di fan-in/out.
+
+Roadmap verso i Microservizi
+
+Abbiamo definito i “bounded contexts” (Configuration, Config-Value, Template…) all’interno di un modular monolith.
+
+Una volta che ogni modulo è autosufficiente e “smell-free”, potremo estrarlo in un microservizio separato con minimi cambiamenti.
+
+In questo modo il tuo codice è ora più coeso, meno accoppiato e pronto per scalare – prima come monolite modulare, poi eventualmente come raccolta di microservizi.

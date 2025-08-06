@@ -1,0 +1,65 @@
+Capitolo X – Rimozione di un ciclo di dipendenze tra moduli DTO
+
+Contesto e problema
+Nel progetto RPush si erano individuati tre package Java che formavano un ciclo di dipendenze:
+
+com.regent.rpush.dto.message.config
+
+com.regent.rpush.dto.route.config
+
+com.regent.rpush.dto.enumeration
+
+Tale ciclo compromette l’indipendenza modulare, rende difficoltosi i rilasci incrementali e accresce il technical debt.
+
+Obiettivo
+Spezzare il ciclo, ottenendo un grafo di dipendenze aciclico, senza alterare la semantica delle annotazioni @ConfigValue né delle enumerazioni.
+
+Soluzione proposta
+
+Introduzione di un modulo “common”
+
+Si crea il package com.regent.rpush.dto.common.config, deputato a contenere tutte le entità condivise:
+
+ConfigValue (annotation)
+
+ConfigValueType (enum)
+
+(Opzionale) Config (classe base o interfaccia per tutte le configurazioni)
+
+Migrazione delle classi condivise
+
+ConfigValue.java e ConfigValueType.java vengono spostati da route.config in dto.common.config.
+
+Se necessario, anche la classe astratta Config (se originariamente in message.config) è migrata in dto.common.config.
+
+Riadattamento dei moduli laterali
+
+dto.route.config e dto.message.config aggiornano gli import per fare riferimento esclusivamente a com.regent.rpush.dto.common.config.
+
+Nessuno dei due moduli importa più l’altro, ma entrambi dipendono solo da dto.common.config.
+
+Revisione di dto.enumeration
+
+L’enum MessagePlatformEnum rimane in dto.enumeration, ma importa da dto.common.config (per Config, ConfigValueType) e non più da dto.message.config o dto.route.config.
+
+Risultato architetturale
+Il nuovo grafo di dipendenze risulta aciclico e modulare:
+
+text
+Copia
+Modifica
+      com.regent.rpush.dto.common.config
+       ↑                ↑
+       │                │
+com.regent.rpush.dto.route.config   com.regent.rpush.dto.message.config
+       ↑
+       │
+com.regent.rpush.dto.enumeration
+Decoupling: le annotazioni e i tipi comuni sono isolati in un unico package condiviso.
+
+Manutenibilità: ogni modulo ha responsabilità chiare e non introduce dipendenze circolari.
+
+Scalabilità: l’aggiunta di nuove configurazioni o valori supera facilmente l’encombramento nel package “common” senza impattare la struttura modulare.
+
+Conclusioni
+La migrazione degli elementi comuni in un package dedicato ha consentito di applicare i principi SOLID (in particolare la Dependency Inversion) e di eliminare il ciclo di dipendenze, riducendo il technical debt e aumentando la manutenibilità del sistema.

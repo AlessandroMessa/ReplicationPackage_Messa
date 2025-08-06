@@ -1,0 +1,3 @@
+"File","Dependant (Out)","Depends upon (In)","Weight"
+"pf-recruit/src/main/java/com/stalary/pf/recruit/data/dto/User.java","com.stalary.pf.recruit.data.dto.User","com.stalary.pf.recruit.data.vo.HR, com.stalary.pf.recruit.data.vo.HR","15"
+".","com.stalary.pf.recruit.data.dto","com.stalary.pf.recruit.data.vo","1"

@@ -1,0 +1,6 @@
+"File","Dependant (Out)","Depends upon (In)","Weight"
+"rpush/rpush-dto/src/main/java/com/regent/rpush/dto/message/config/WechatWorkAgentConfig.java","com.regent.rpush.dto.message.config.WechatWorkAgentConfig","com.regent.rpush.dto.route.config.ConfigValue, com.regent.rpush.dto.route.config.ConfigValue","3"
+"rpush/rpush-dto/src/main/java/com/regent/rpush/dto/message/config/DingTalkCorpConfig.java","com.regent.rpush.dto.message.config.DingTalkCorpConfig","com.regent.rpush.dto.route.config.ConfigValue, com.regent.rpush.dto.route.config.ConfigValue","3"
+"rpush/rpush-dto/src/main/java/com/regent/rpush/dto/message/config/DingTalkRobotConfig.java","com.regent.rpush.dto.message.config.DingTalkRobotConfig","com.regent.rpush.dto.route.config.ConfigValue, com.regent.rpush.dto.route.config.ConfigValue","1"
+"rpush/rpush-dto/src/main/java/com/regent/rpush/dto/message/config/WechatWorkRobotConfig.java","com.regent.rpush.dto.message.config.WechatWorkRobotConfig","com.regent.rpush.dto.route.config.ConfigValue, com.regent.rpush.dto.route.config.ConfigValue","1"
+".","com.regent.rpush.dto.message.config","com.regent.rpush.dto.route.config","4"

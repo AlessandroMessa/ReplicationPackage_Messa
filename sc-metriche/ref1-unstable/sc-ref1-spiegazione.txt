@@ -1,0 +1,72 @@
+2. Problema
+Originariamente il realm di autenticazione (AuthorizingRealmImpl) dipendeva direttamente da un client Feign concreto (AuthRemoteClient) per ottenere dati di utente, ruoli e permessi. Questa dipendenza diretta comportava:
+
+Alto accoppiamento verso un dettaglio remoto e potenzialmente volatile.
+
+Difficoltà nei test unitari (difficile isolare il realm senza coinvolgere il client remoto).
+
+Aumento dell’instabilità del modulo consumatore, misurata come rapporto tra dipendenze uscenti e entranti, poiché dipendeva da componenti “lontani” e soggetti a cambiamento.
+
+3. Approccio
+Per mitigare queste criticità si è adottata una strategia basata su:
+
+Inversione delle dipendenze: il realm non dipende più da un’implementazione concreta ma da un’astrazione.
+
+Estrazione di un contratto stabile: è stata definita e riutilizzata un’interfaccia AuthService che espone le operazioni necessarie (findUserByName, findRoleByUserId, getPermissions), collocata in un livello di contratto più stabile e separato.
+
+Separazione delle implementazioni: l’implementazione remota effettiva (che utilizza AuthRemoteClient) risiede in un modulo distinto; il modulo consumer.jsp inietta solo AuthService.
+
+Riduzione delle dipendenze dirette: eliminando il riferimento diretto al client remoto, il grafo di dipendenze del modulo consumatore diventa meno fragile.
+
+4. Implementazione
+L’interfaccia AuthService è stata resa disponibile come astrazione, e il realm (AuthorizingRealmImpl) è stato rifattorizzato per usarla tramite dependency injection anziché invocare direttamente AuthRemoteClient.
+
+Le operazioni su sessione e permessi sono rimaste nel realm, ma l’accesso ai dati esterni passa attraverso AuthService.
+
+L’implementazione concreta che delega a AuthRemoteClient può essere collocata in un modulo separato (“remote”) e registrata come bean Spring (es. RemoteAuthService).
+
+L’iniezione dell’interfaccia consente di sostituire facilmente l’implementazione (mock, cache, fallback) senza modificare il realm.
+
+5. Benefici
+Riduzione dell’instabilità: il modulo consumer.jsp dipende solo da un’astrazione stabile, diminuendo il coupling efferente verso componenti volatili.
+
+Maggiore testabilità: è possibile mockare AuthService nei test unitari del realm senza dipendere da servizi remoti.
+
+Separazione delle responsabilità: il contratto (interfaccia) è disaccoppiato dalla sua implementazione concreta.
+
+Flessibilità evolutiva: future varianti (es. caching, fallback, implementazioni alternative) si possono inserire senza toccare il codice del realm. 
+
+Introduzione di interfacce di servizio
+– Abbiamo creato AuthService e NewsService come contratti locali, spostandoli in un package “consumer.service”.
+– I controller (e il realm Shiro) ora dipendono solo da queste interfacce, non dai client Feign concreti.
+
+DTO e mapper locali
+– Definiti UserDto, RoleDto, PermissionDto, NewsDto e relativi mapper (AuthMapper, NewsMapper, PageInfoMapper).
+– I mapper convertono tra i modelli remoti (User, Role, PermissionVo, News) e i DTO locali.
+
+Implementazioni remote isolate
+– In consumer.service.impl abbiamo RemoteAuthService e RemoteNewsService che:
+
+Iniettano il client Feign.
+
+Fanno mapper.toDto(remote) per le chiamate di lettura.
+
+Fanno mapper.toRemote(dto) per le chiamate di scrittura (se presenti).
+
+Refactor di controller e realm
+– NewsController è stato aggiornato per usare NewsDto e NewsService, senza toccare più NewsRemoteClient né common.api.model.simple.News.
+– AuthorizingRealmImpl ora inietta AuthService e SaltService, usa UserDto, RoleDto, PermissionDto e ConsumerConstants, eliminando ogni import da common.api.
+
+Rimozione di utility esterne
+– Sostituito DateUtil con java.time (o con un piccolo VersionProvider) per non dipendere da utilità esterne.
+– Spostato le costanti di sessione in un ConsumerConstants locale.
+
+Pulizia di enum “hard-coded”
+– Abbiamo visto che RoleEnumUtil e PermissionEnumUtil erano usati per “seeding” di dati statici.
+– Li abbiamo migrati (o eliminati se non più necessari) trasformandoli in provider di DTO locali o rimuovendoli del tutto se il flusso ora riceve i permessi dal servizio remoto.
+
+Benefici raggiunti
+– Minor accoppiamento: il modulo consumer.jsp dipende solo da contratti stabili, non dai dettagli remoti.
+– Maggiore testabilità: controller e realm si possono testare con mock di *Service.
+– Più chiarezza e modularità: ogni package ha una responsabilità unica (feature-based packaging).
+– Riduzione dell’“instabilità”: Arcan ora mostra meno dipendenze efferenti uscenti, rendendo il modulo più stabile e manutenibile.

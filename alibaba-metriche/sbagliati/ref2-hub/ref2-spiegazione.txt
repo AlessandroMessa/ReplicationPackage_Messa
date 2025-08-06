@@ -1,0 +1,106 @@
+Riassunto del Refactoring: Smell "Hub-Like Dependency"
+
+1. Introduzione
+
+La presente analisi descrive il refactoring effettuato per risolvere lo smell architetturale Hub-Like Dependency individuato nel microservizio mall.client. Il nodo monolitico CouponFeign è stato identificato come punto critico a causa del peso elevato (11) che generava un alto fan-in e fan-out, riducendo la coesione e aumentando il technical debt.
+
+2. Analisi del problema
+
+Cos’è uno smel­l Hub-Like Dependency: un componente agisce come punto centrale di molte dipendenze, creando un effetto “hub” che complica la manutenzione.
+
+Identificazione tramite Arcan: il tool ha segnalato mall.client.CouponFeign con peso 11 come il primo nodo da frammentare.
+
+3. Metodologia di Refactoring
+
+Il processo è stato suddiviso in cinque step:
+
+Analisi dettagliata dei metodi
+
+Elencati 11 endpoint HTTP di CouponFeign (POST, GET, ecc.) con parametri e scopi.
+
+Raggruppati per funzionalità: Basic Coupon, Cart Coupon, Product Coupon, Flash Promotion, Home Advertise.
+
+Creazione di interfacce Feign specifiche
+
+CouponBasicClient per operazioni base (add, list, listHistory, updateCouponStatus).
+
+CartCouponClient per gestione coupon nel carrello.
+
+ProductCouponClient per coupon legati a prodotto.
+
+FlashPromotionClient per promozioni lampo.
+
+AdvertiseClient per advertising home.
+
+Organizzazione in sottopackageStruttura proposta:
+
+com.mtcarpenter.mall.client
+└── coupon
+    ├── basic       (CouponBasicClient)
+    ├── cart        (CartCouponClient)
+    ├── product     (ProductCouponClient)
+    ├── promotion   (FlashPromotionClient)
+    └── advertise   (AdvertiseClient)
+
+Ogni interfaccia aggiornata con package corretto e spostata nel package corrispondente.
+
+Aggiornamento dei consumer
+
+Iniezione nei service: HomeServiceImpl, UmsMemberCouponServiceImpl, OmsPortalOrderServiceImpl, PmsPortalProductServiceImpl.
+
+Rimozione di CouponFeign e sostituzione con i client mirati.
+
+Verifica e cleanup
+
+Deprecazione e infine rimozione di CouponFeign.
+
+Rilancio di Arcan per confermare la riduzione del fan-in/fan-out su ciascun client (peso ≤ 5).
+
+Esecuzione di build, test automatici e integrazione continua.
+
+4. Risultati
+
+Il monolitico CouponFeign è stato frammentato in 5 client coesi.
+
+Ogni client registra fan-in/fan-out significativamente ridotto.
+
+La struttura del codice risulta più modulare, leggibile e testabile.
+
+5. Conclusioni
+
+Il refactoring ha portato a un abbattimento del technical debt e a un miglioramento della manutenibilità del codice. La suddivisione in client funzionali, unita all’uso di sottopackage, facilita l’estensione futura e il rispetto dei principi SOLID. In prospettiva, si consiglia di monitorare l’evoluzione dei contratti API e, se necessario, introdurre mapper dedicati per gestire eventuali divergenze tra DTO remoti e modelli di dominio.
+
+4.2 Valutazione dell’efficacia del refactoring per lo smell “Hub-Like Dependency”
+Contesto
+Lo smell “Hub-Like Dependency” è stato individuato nel package com.mtcarpenter.mall.client con una stima di technical debt pari a 57 unità, valore da considerarsi relativamente contenuto rispetto ai limiti critici proposti in letteratura (Figura 3.1). Inoltre, l’analisi di dipendenza evidenzia un fan-in + fan-out complessivo pari a 7, soglia che rientra nella fascia di normalità per sistemi a microservizi, suggerendo un basso livello di complessità relazionale del nodo hub.
+
+Osservazione sui pesi
+Tuttavia, tra i componenti del package, il tool Arcan ha segnalato una specifica classe—CouponFeign.java—con un peso pari a 11, significativamente al di sopra della media degli altri nodi (< 5). Questo squilibrio identifica CouponFeign come principale responsabile dell’effetto “hub” e come candidato naturale per un intervento di frammentazione.
+
+Ipotesi di lavoro
+Si ipotizza che, data la bassa incidenza complessiva dello smell (TD = 57) e il modesto grado di connessione dell’intero package (fan-in+fan-out = 7), un refactoring mirato esclusivamente su CouponFeign—suddividendola nei cinque client funzionali già proposti—possa risultare sufficientemente efficace a eliminare lo smell “Hub-Like Dependency”. In particolare:
+
+Riduzione del peso: frammentando CouponFeign in client specializzati, ci si aspetta che ciascun nuovo nodo riporti un peso ≤ 5.
+
+Mantenimento della coesione: le altre classi del package, già al di sotto dei valori critici, non richiederanno ulteriori interventi.
+
+Minimizzazione dello sforzo: concentrando il refactoring sulla sola classe “hub” si massimizza il rapporto costo-beneficio, mantenendo invariata l’architettura complessiva.
+
+Conclusione preliminare
+Alla luce dei dati, risulta ragionevole sostenere che il refactoring di CouponFeign.java da solo sia sufficiente a risolvere lo smell “Hub-Like Dependency” all’interno del package mall.client, riducendo significativamente sia il technical debt che la complessità di dipendenze senza dover intervenire su altri componenti già caratterizzati da pesi e collegamenti contenuti.
+
+4.4 Considerazione architetturale trasversale
+Durante il processo di refactoring è emerso un aspetto architetturale cruciale: tutti i microservizi dell'applicazione condividono una struttura di package comune basata su com.mtcarpenter.mall. In particolare, ogni servizio definisce i propri client REST nel package com.mtcarpenter.mall.client, generando di fatto un namespace omogeneo a livello globale.
+
+Questa struttura comporta che, se più servizi fanno uso di client Feign, le rispettive classi si ritrovano nello stesso package logico dal punto di vista di Arcan, anche se distribuite fisicamente in microservizi distinti. Di conseguenza, lo smell “Hub-Like Dependency” può emergere a livello aggregato, poiché Arcan rileva molte dipendenze convergenti verso il package client in senso globale.
+
+In altre parole, anche dopo aver rifattorizzato i client di un microservizio (es. suddividendo CouponFeign), lo smell può persistere se gli altri microservizi continuano ad avere client pesanti nello stesso package. Ciò impone una riflessione sistemica: per eliminare definitivamente lo smell, è necessario intervenire su più microservizi contemporaneamente, adottando una logica di refactoring trasversale.
+
+4.5 Persistenza dello smell e aumento relativo del coupling
+Nonostante le operazioni di refactoring abbiano comportato una chiara riduzione del Technical Debt (TD complessivo da 57 a 45), lo smell architetturale Hub-Like Dependency continua a essere rilevato nel package com.mtcarpenter.mall.client, con un Fan-In + Fan-Out complessivo pari a 9, superiore alla soglia dinamica di sistema (7).
+
+Questo apparente paradosso trova spiegazione nella natura del refactoring eseguito: dividere client monolitici in interfacce Feign più piccole ha comportato la creazione di più nodi leggeri, ma ha anche aumentato il numero di relazioni tra moduli, amplificando la visibilità dello smell a livello di package.
+
+Inoltre, la soglia di rilevamento calcolata da Arcan è legata alla mediana del sistema. Poiché il sistema è diventato più modulare e distribuito, la soglia è scesa, rendendo più probabile che anche nodi a bassa complessità individuale superino il limite aggregato.
+
+Di conseguenza, lo smell non è più causato da singole classi pesanti, bensì da una configurazione sistemica dove il package client continua a fungere da punto di passaggio comune per più microservizi. La soluzione non passa più solo dalla divisione interna, ma da un ripensamento dell’organizzazione dei pacchetti e delle dipendenze tra moduli.

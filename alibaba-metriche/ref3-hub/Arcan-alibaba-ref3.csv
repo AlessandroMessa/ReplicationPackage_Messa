@@ -1,0 +1,6 @@
+ID;Smell Type;TechDebt Index;Severity;Affected Type;Affected Elements;Size;Affected Elements (complete);Incoming dependencies (Fan In);Outgoing Dependencies (Fan Out);Adaptive threshold of total fan in and fan out;Detection rule;detectionValue;detectionThreshold
+30813;Hublike Dependency;55;6;Package;com.mtcarpenter.mall.client;11;com.mtcarpenter.mall.client;5;5;com.mtcarpenter.mall.client;Fan In + Fan Out > System's median (7);10;7
+30788;Unstable Dependency;23;5;Package;com.mtcarpenter.mall.portal;4;com.mtcarpenter.mall.portal;0;6;com.mtcarpenter.mall.portal;Instability gap > 20 %;0.6;0.2
+30797;Hublike Dependency;23;6;Interface;com.mtcarpenter.mall.service.UmsAdminService;11;com.mtcarpenter.mall.service.UmsAdminService;4;6;com.mtcarpenter.mall.service.UmsAdminService;Fan In + Fan Out > System's median (10);10;10
+30776;Cyclic Dependency;16;4;Package;com.mtcarpenter.mall.security.config, com.mtcarpenter.mall.security.component;2;com.mtcarpenter.mall.security.config, com.mtcarpenter.mall.security.component;0;0;;Cycle Detection;0;0
+30782;Cyclic Dependency;7;3;Implementation;com.mtcarpenter.mall.validator.FlagValidator, com.mtcarpenter.mall.validator.FlagValidatorClass;2;com.mtcarpenter.mall.validator.FlagValidator, com.mtcarpenter.mall.validator.FlagValidatorClass;0;0;;Cycle Detection;0;0

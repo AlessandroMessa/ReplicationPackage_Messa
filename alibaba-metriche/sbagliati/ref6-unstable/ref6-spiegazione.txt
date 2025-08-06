@@ -1,0 +1,114 @@
+Rifattorizzazione del modulo OrderService: Eliminazione dello Smell "Unstable Dependency"
+
+Nel corso dell'analisi del progetto “Mall-Cloud-Alibaba” tramite lo strumento Arcan, è emerso in più punti uno smell architetturale ricorrente: Unstable Dependency, particolarmente evidente nelle classi del modulo order-service, come ad esempio OrderGenerationServiceImpl, OrderLifecycleServiceImpl, OrderPaymentServiceImpl, OrderQueryServiceImpl e OmsCartItemServiceImpl.
+
+Queste classi presentavano un elevato numero di dipendenze dirette verso componenti instabili, tra cui:
+
+Client Feign (es. CouponCommandClient, StockCommandClient)
+
+Mapper MyBatis (es. OmsOrderMapper, OmsOrderItemMapper)
+
+DAO specifici (es. PortalOrderDao)
+
+Utility condivise (es. MemberUtil)
+
+Questa situazione violava i principi di coesione e disaccoppiamento, rendendo difficile la manutenibilità, la testabilità e l'evoluzione modulare del sistema.
+
+Strategia di Rifattorizzazione Applicata
+
+La strategia adottata è ispirata al pattern proposto nella documentazione di Arcan per la rimozione dello smell "Hub-Like Dependency", e consiste nella creazione di provider class responsabili di incapsulare l'accesso a sottosistemi esterni e logiche specifiche. Ogni provider ha una singola responsabilità ben definita.
+
+Provider introdotti:
+
+Provider
+
+Responsabilità
+
+MemberProvider
+
+Recupero UmsMember da Redis
+
+CouponProvider
+
+Gestione dei coupon e calcoli relativi
+
+IntegrationProvider
+
+Gestione punti fedeltà e regole d'uso
+
+StockProvider
+
+Lock e unlock dello stock dei prodotti
+
+OrderDataProvider
+
+Accesso a ordini, items e configurazioni
+
+CartItemDataProvider
+
+Accesso al database del carrello
+
+PromotionProvider
+
+Calcolo promozioni su carrello
+
+ProductQueryProvider
+
+Recupero dettagli prodotto via Feign
+
+Ogni classe service è stata modificata per dipendere unicamente da questi provider, riducendo drasticamente il numero di @Autowired e aumentando l'aderenza ai principi SOLID (in particolare Single Responsibility e Dependency Inversion).
+
+Classi Service Rifattorizzate
+
+Classe Service
+
+Ruolo principale
+
+Provider utilizzati
+
+OrderGenerationServiceImpl
+
+Generazione e conferma ordine
+
+MemberProvider, CouponProvider, StockProvider, OrderDataProvider, IntegrationProvider
+
+OrderLifecycleServiceImpl
+
+Timeout, annullamento e conferma ricezione
+
+MemberProvider, CouponProvider, StockProvider, IntegrationProvider, OrderDataProvider
+
+OrderPaymentServiceImpl
+
+Pagamento ordine e aggiornamento stock
+
+OrderDataProvider
+
+OrderQueryServiceImpl
+
+Consultazione lista, dettaglio, cancellazione
+
+MemberProvider, OrderDataProvider
+
+OmsCartItemServiceImpl
+
+Gestione CRUD del carrello e promozioni
+
+CartItemDataProvider, PromotionProvider, ProductQueryProvider, MemberProvider
+
+Risultati della Rifattorizzazione
+
+Riduzione dell'accoppiamento tra le service e componenti esterni
+
+Maggiore coesione e separazione dei ruoli
+
+Aumento della testabilità grazie alla possibilità di mockare i provider
+
+Modularità migliorata, facilitando il refactoring e l'adozione futura di microservizi
+
+Conformità ai principi SOLID, in particolare SRP e DIP
+
+Conclusione
+
+L'introduzione dei provider si è rivelata una strategia efficace per affrontare lo smell "Unstable Dependency" in un contesto complesso come order-service. Questo approccio ha permesso di ottenere un'architettura più stabile, manutenibile e facilmente estendibile, rendendo il sistema più resiliente ai cambiamenti futuri.
+

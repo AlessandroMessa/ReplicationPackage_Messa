@@ -1,0 +1,9 @@
+ho modificato il namespace dei moduli perché non era possibile in quel modo risolvere unstable dependency.
+da 4 smells sono passato a 6 frammentando l'unstable. così è più semplice risolverlo. 
+Si è creato anche un Hublike.
+
+Dopo un primo intervento di rifattorizzazione volto alla specializzazione del package com.mtcarpenter.mall.portal in sottopacchetti più coesi (es. portal.coupon, portal.product), si è osservato un incremento nel numero complessivo di code smells rilevati, passando da quattro a sei. Tuttavia, questo aumento rappresenta una conseguenza naturale della frammentazione di un nodo centrale fortemente accoppiato (hub-like) in componenti più specifici e mirati.
+
+In particolare, la rimozione dello smell originario ha comportato l’emersione di due nuovi smell di tipo Unstable Dependency, localizzati nei sottopacchetti appena isolati. Tale suddivisione, pur introducendo temporaneamente nuova complessità apparente, costituisce un miglioramento architetturale, poiché consente ora un’analisi e un intervento più mirati e modulari.
+
+In questo contesto, ha pienamente senso procedere con la rimozione progressiva degli Unstable Dependency residui, sfruttando strategie consolidate come l’inversione delle dipendenze (Dependency Inversion Principle), l’introduzione di moduli intermedi stabili, o la centralizzazione delle responsabilità comuni. L’approccio incrementale adottato consente così di passare da un'architettura monolitica e fragile a una struttura più modulare, mantenibile e conforme ai principi di progettazione a basso accoppiamento e alta coesione.
