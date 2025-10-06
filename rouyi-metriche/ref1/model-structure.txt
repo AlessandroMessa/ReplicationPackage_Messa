@@ -1,0 +1,84 @@
+Elenco del percorso delle cartelle
+Numero di serie del volume: 58A2-4C1E
+C:\USERS\UTENTE\DESKTOP\TESI\TESI\RUOYI-CLOUD\RUOYI-MODULES\RUOYI-SYSTEM\SRC\MAIN\JAVA\COM\RUOYI\SYSTEM
+¦   model-structure.txt
+¦   RuoYiSystemApplication.java
+¦   
++---controller
+¦       SysConfigController.java
+¦       SysDeptController.java
+¦       SysDictDataController.java
+¦       SysDictTypeController.java
+¦       SysLogininforController.java
+¦       SysMenuController.java
+¦       SysNoticeController.java
+¦       SysOperlogController.java
+¦       SysPostController.java
+¦       SysProfileController.java
+¦       SysRoleController.java
+¦       SysUserController.java
+¦       SysUserOnlineController.java
+¦       
++---domain
+¦   ¦   SysConfig.java
+¦   ¦   SysMenu.java
+¦   ¦   SysNotice.java
+¦   ¦   SysPost.java
+¦   ¦   SysRoleDept.java
+¦   ¦   SysRoleMenu.java
+¦   ¦   SysUserOnline.java
+¦   ¦   SysUserPost.java
+¦   ¦   SysUserRole.java
+¦   ¦   
+¦   +---vo
+¦           MetaVo.java
+¦           RouterVo.java
+¦           TreeSelect.java
+¦           
++---mapper
+¦       SysConfigMapper.java
+¦       SysDeptMapper.java
+¦       SysDictDataMapper.java
+¦       SysDictTypeMapper.java
+¦       SysLogininforMapper.java
+¦       SysMenuMapper.java
+¦       SysNoticeMapper.java
+¦       SysOperLogMapper.java
+¦       SysPostMapper.java
+¦       SysRoleDeptMapper.java
+¦       SysRoleMapper.java
+¦       SysRoleMenuMapper.java
+¦       SysUserMapper.java
+¦       SysUserPostMapper.java
+¦       SysUserRoleMapper.java
+¦       
++---service
+    ¦   ISysConfigService.java
+    ¦   ISysDeptService.java
+    ¦   ISysDictDataService.java
+    ¦   ISysDictTypeService.java
+    ¦   ISysLogininforService.java
+    ¦   ISysMenuService.java
+    ¦   ISysNoticeService.java
+    ¦   ISysOperLogService.java
+    ¦   ISysPermissionService.java
+    ¦   ISysPostService.java
+    ¦   ISysRoleService.java
+    ¦   ISysUserOnlineService.java
+    ¦   ISysUserService.java
+    ¦   
+    +---impl
+            SysConfigServiceImpl.java
+            SysDeptServiceImpl.java
+            SysDictDataServiceImpl.java
+            SysDictTypeServiceImpl.java
+            SysLogininforServiceImpl.java
+            SysMenuServiceImpl.java
+            SysNoticeServiceImpl.java
+            SysOperLogServiceImpl.java
+            SysPermissionServiceImpl.java
+            SysPostServiceImpl.java
+            SysRoleServiceImpl.java
+            SysUserOnlineServiceImpl.java
+            SysUserServiceImpl.java
+            

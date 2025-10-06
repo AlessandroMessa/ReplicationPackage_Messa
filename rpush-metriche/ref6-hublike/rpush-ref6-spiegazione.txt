@@ -1,2 +1,0 @@
-Come ref5, ho creato dei sottopackage e ho rimosso lo smell (su com.regent.rpush.route.utils) ma si è spostato su com.regent.rpush.server.socket 
-La cosa positiva è che il nuovo smell ha size 9 e td 72.

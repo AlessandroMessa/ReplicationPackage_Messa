@@ -1,2 +1,0 @@
-Dovrò spiegarla bene. In sostanza per questo UD in com.wangxin.thymeleaf avrei dovuto fare come lo smell precedente, invece ho deciso di fare puntare ad un modulo usato da tutti, quindi ho come conseguenza rimosso i due hublike che avevo in feign.
-Nel momento della tesi vedrò di elaborarlo bene
