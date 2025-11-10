@@ -13,34 +13,7 @@ This replication package contains all the data and scripts used to extract and a
 
 ### 📁 Arcan Analyses (./Arcan analyses)  
 Folder containing the results of the Arcan tool.
-├───MCA\n
-│   ├───base\n
-│   └───ref1 GC\n
-├───RC\n
-│   ├───base\n
-│   ├───ref1 CD\n
-│   ├───ref2 CD\n
-│   └───ref3 CD\n
-├───RP\n
-│   ├───base\n
-│   ├───ref1 CD\n
-│   ├───ref2 CD\n
-│   ├───ref3 CD\n
-│   ├───ref4 CD\n
-│   ├───ref5 HL\n
-│   ├───ref6 HL\n
-│   ├───ref7 HL\n
-│   ├───ref8 HL\n
-│   └───ref9 HL\n
-├───RYC\n
-│   ├───base\n
-│   └───ref1 UD\n
-└───SC\n    
-├───base\n    
-    ├───ref1 UD\n    
-    ├───ref2 UD\n    
-    ├───ref3 UD\n    
-    └───ref4 CD\n```  
+├───MCA<n>│   ├───base<n>│   └───ref1 GC<n>├───RC<n>│   ├───base<n>│   ├───ref1 CD<n>│   ├───ref2 CD<n>│   └───ref3 CD<n>├───RP<n>│   ├───base<n>│   ├───ref1 CD<n>│   ├───ref2 CD<n>│   ├───ref3 CD<n>│   ├───ref4 CD<n>│   ├───ref5 HL<n>│   ├───ref6 HL<n>│   ├───ref7 HL<n>│   ├───ref8 HL<n>│   └───ref9 HL<n>├───RYC<n>│   ├───base<n>│   └───ref1 UD<n>└───SC<n>    ├───base<n>    ├───ref1 UD<n>    ├───ref2 UD<n>    ├───ref3 UD<n>    └───ref4 CD<n>
 ### 📁 Understand Analyses (./Understand analyses)  
 Folder containing the results of the Understand tool.    
 ├───MCA
