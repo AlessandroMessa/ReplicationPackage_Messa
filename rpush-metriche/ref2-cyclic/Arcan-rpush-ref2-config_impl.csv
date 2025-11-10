@@ -1,3 +1,0 @@
-"File","Dependant (Out)","Depends upon (In)","Weight"
-"rpush/rpush-route/src/main/java/com/regent/rpush/route/config/OAuth2Config.java","com.regent.rpush.route.config.OAuth2Config","com.regent.rpush.route.service.impl.RpushUserDetailService, com.regent.rpush.route.service.impl.RpushUserDetailService","1"
-".","com.regent.rpush.route.config","com.regent.rpush.route.service.impl","1"

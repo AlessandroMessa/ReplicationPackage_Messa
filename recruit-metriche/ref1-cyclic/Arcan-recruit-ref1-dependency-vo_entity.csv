@@ -1,5 +1,0 @@
-"File","Dependant (Out)","Depends upon (In)","Weight"
-"pf-recruit/src/main/java/com/stalary/pf/recruit/data/vo/RecruitAndHrAndCompany.java","com.stalary.pf.recruit.data.vo.RecruitAndHrAndCompany","com.stalary.pf.recruit.data.entity.RecruitEntity, com.stalary.pf.recruit.data.entity.CompanyEntity, com.stalary.pf.recruit.data.entity.RecruitEntity, com.stalary.pf.recruit.data.entity.CompanyEntity","1"
-"pf-recruit/src/main/java/com/stalary/pf/recruit/data/vo/RecruitAndCompany.java","com.stalary.pf.recruit.data.vo.RecruitAndCompany","com.stalary.pf.recruit.data.entity.CompanyEntity, com.stalary.pf.recruit.data.entity.RecruitEntity, com.stalary.pf.recruit.data.entity.CompanyEntity, com.stalary.pf.recruit.data.entity.RecruitEntity","1"
-"pf-recruit/src/main/java/com/stalary/pf/recruit/data/vo/CompanyAndRecruit.java","com.stalary.pf.recruit.data.vo.CompanyAndRecruit","com.stalary.pf.recruit.data.entity.RecruitEntity, com.stalary.pf.recruit.data.entity.CompanyEntity, com.stalary.pf.recruit.data.entity.RecruitEntity, com.stalary.pf.recruit.data.entity.CompanyEntity","1"
-".","com.stalary.pf.recruit.data.vo","com.stalary.pf.recruit.data.entity","6"

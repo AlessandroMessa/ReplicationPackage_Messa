@@ -1,4 +1,0 @@
-"File","Dependant (Out)","Depends upon (In)","Weight"
-"rpush-route/src/main/java/com/regent/rpush/route/utils/MessageHandlerHolder.java","com.regent.rpush.route.utils.MessageHandlerHolder","com.regent.rpush.route.handler.MessageHandler, com.regent.rpush.route.handler.MessageHandler","21"
-"rpush-route/src/main/java/com/regent/rpush/route/utils/MessageHandlerUtils.java","com.regent.rpush.route.utils.MessageHandlerUtils","com.regent.rpush.route.handler.MessageHandler, com.regent.rpush.route.handler.MessageHandler","33"
-".","com.regent.rpush.route.utils","com.regent.rpush.route.handler","2"

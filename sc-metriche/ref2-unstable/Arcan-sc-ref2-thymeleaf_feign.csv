@@ -1,3 +1,0 @@
-"File","Dependant (Out)","Depends upon (In)","Weight"
-"sc/sc-consumer-thymeleaf/src/main/java/com/wangxin/consumer/thymeleaf/web/controller/simple/NewsController.java","com.wangxin.consumer.thymeleaf.web.controller.simple.NewsController","com.wangxin.feign.web.remote.simple.NewsRemoteClient, com.wangxin.feign.web.remote.simple.NewsRemoteClient","1"
-".","com.wangxin.consumer.thymeleaf","com.wangxin.feign","1"

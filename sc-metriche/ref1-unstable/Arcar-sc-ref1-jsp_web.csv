@@ -1,3 +1,0 @@
-"File","Dependant (Out)","Depends upon (In)","Weight"
-"sc-consumer-jsp/src/main/java/com/wangxin/consumer/jsp/common/shiro/AuthorizingRealmImpl.java","com.wangxin.consumer.jsp.common.shiro.AuthorizingRealmImpl","com.wangxin.feign.web.remote.auth.AuthRemoteClient, com.wangxin.feign.web.remote.auth.AuthRemoteClient","1"
-".","com.wangxin.consumer.jsp","com.wangxin.feign.web","1"

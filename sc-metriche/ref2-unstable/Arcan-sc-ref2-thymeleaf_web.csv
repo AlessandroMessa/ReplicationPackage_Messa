@@ -1,3 +1,0 @@
-"File","Dependant (Out)","Depends upon (In)","Weight"
-"sc/sc-consumer-thymeleaf/src/main/java/com/wangxin/consumer/thymeleaf/common/shiro/AuthorizingRealmImpl.java","com.wangxin.consumer.thymeleaf.common.shiro.AuthorizingRealmImpl","com.wangxin.feign.web.remote.auth.AuthRemoteClient, com.wangxin.feign.web.remote.auth.AuthRemoteClient","1"
-".","com.wangxin.consumer.thymeleaf","com.wangxin.feign.web","1"

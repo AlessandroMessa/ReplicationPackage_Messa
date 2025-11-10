@@ -1,5 +1,0 @@
-ID;Smell Type;TechDebt Index;Severity;Affected Type;Affected Elements;Size;Affected Elements (complete);Incoming dependencies (Fan In);Outgoing Dependencies (Fan Out);Adaptive threshold of total fan in and fan out;Detection rule;detectionValue;detectionThreshold
-13312;Hublike Dependency;97;6;Package;com.regent.rpush.route.service;22;com.regent.rpush.route.service;11;10;com.regent.rpush.route.service;Fan In + Fan Out > System's median (21);21;21
-13284;Hublike Dependency;19;6;Interface;com.regent.rpush.route.service.IRpushTemplateReceiverService;9;com.regent.rpush.route.service.IRpushTemplateReceiverService;5;3;com.regent.rpush.route.service.IRpushTemplateReceiverService;Fan In + Fan Out > System's median (7);8;7
-13298;Hublike Dependency;18;6;Interface;com.regent.rpush.route.service.IRpushPlatformConfigService;9;com.regent.rpush.route.service.IRpushPlatformConfigService;3;5;com.regent.rpush.route.service.IRpushPlatformConfigService;Fan In + Fan Out > System's median (7);8;7
-;;134;;;;;;;;;;;

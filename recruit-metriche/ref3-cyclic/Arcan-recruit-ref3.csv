@@ -1,2 +1,0 @@
-"ID","Smell Type","TechDebt Index","Severity","Affected Type","Affected Elements","Size","Affected Elements (complete)","Incoming dependencies (Fan In)","Outgoing Dependencies (Fan Out)","Adaptive threshold of total fan in and fan out","Detection rule","detectionValue","detectionThreshold"
-"10292","Cyclic Dependency","8","4","Concrete Class","com.stalary.pf.push.service.WebSocketService, com.stalary.pf.push.service.MessageService","2","com.stalary.pf.push.service.WebSocketService, com.stalary.pf.push.service.MessageService","0","0","","Cycle Detection","0","0"

@@ -1,7 +1,0 @@
-"File","Dependant (Out)","Depends upon (In)","Weight"
-"rpush/rpush-route/src/main/java/com/regent/rpush/route/service/impl/RpushTemplateReceiverGroupServiceImpl.java","com.regent.rpush.route.service.impl.RpushTemplateReceiverGroupServiceImpl","com.regent.rpush.route.config.SessionUtils, com.regent.rpush.route.config.SessionUtils","2"
-"rpush/rpush-route/src/main/java/com/regent/rpush/route/service/impl/RpushPlatformConfigServiceImpl.java","com.regent.rpush.route.service.impl.RpushPlatformConfigServiceImpl","com.regent.rpush.route.config.SessionUtils, com.regent.rpush.route.config.SessionUtils","5"
-"rpush/rpush-route/src/main/java/com/regent/rpush/route/service/impl/RpushMessageSchemeServiceImpl.java","com.regent.rpush.route.service.impl.RpushMessageSchemeServiceImpl","com.regent.rpush.route.config.SessionUtils, com.regent.rpush.route.config.SessionUtils","3"
-"rpush/rpush-route/src/main/java/com/regent/rpush/route/service/impl/RpushUserDetailService.java","com.regent.rpush.route.service.impl.RpushUserDetailService","com.regent.rpush.route.config.SessionUtils, com.regent.rpush.route.config.SessionUtils","1"
-"rpush/rpush-route/src/main/java/com/regent/rpush/route/service/impl/RpushTemplateReceiverServiceImpl.java","com.regent.rpush.route.service.impl.RpushTemplateReceiverServiceImpl","com.regent.rpush.route.config.SessionUtils, com.regent.rpush.route.config.SessionUtils","3"
-".","com.regent.rpush.route.service.impl","com.regent.rpush.route.config","5"
