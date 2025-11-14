@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 # To analyse a file, replace the file path with the path of the file you want to analyse.
 FILE_PATH = "C:/Users/Utente/Desktop/replication_package/ReplicationPackage_Messa/Understand analyses/SC/ref4 CD/Understand-sc-ref4.xlsx"
-COLUMN  = ["CountLineCode", "SumCyclomatic", "CountDeclMethod", "MaxCyclomatic", "CountClassCoupled", "PercentLackOfCohesion"]
+COLUMN  = ["CountLineCode", "AvgCyclomatic", "CountDeclMethod", "MaxCyclomatic", "CountClassCoupled", "PercentLackOfCohesion"]
 
 def main():
     df = pd.read_excel(FILE_PATH)
@@ -27,9 +27,7 @@ def file(df):
     print(f"'{COLUMN[0]}' = {locSum}")
 
     # AvgCyclomatic
-    cycloSum = pd.to_numeric(df[COLUMN[1]], errors="coerce").sum()
-    cdmSum = pd.to_numeric(df[COLUMN[2]], errors="coerce").sum()
-    avgCyclo = cycloSum / cdmSum
+    avgCyclo = pd.to_numeric(df[COLUMN[1]], errors="coerce").mean()
     print(f"'AvgCyclomatic' = {avgCyclo}")
 
     # MaxCyclomatic
