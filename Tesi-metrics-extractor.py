@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 # To analyse a file, replace the file path with the path of the file you want to analyse.
-FILE_PATH = "C:/Users/Utente/Desktop/replication_package/ReplicationPackage_Messa/Understand analyses/SC/ref4 CD/Understand-sc-ref4.xlsx"
+FILE_PATH = "C:/Users/Utente/Desktop/replication_package/ReplicationPackage_Messa/SC/ref4 CD/Understand-sc-ref4.xlsx"
 COLUMN  = ["CountLineCode", "AvgCyclomatic", "CountDeclMethod", "MaxCyclomatic", "CountClassCoupled", "PercentLackOfCohesion"]
 
 def main():
