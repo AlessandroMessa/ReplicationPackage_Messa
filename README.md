@@ -1,17 +1,15 @@
-# Replication Package for Bachelor’s Thesis in Computer Science
-
-## Title: Exploring the impact of architectural smells refactoring in microservice projects
+# Replication Package for "Exploring the impact of architectural smells refactoring in microservice projects"
 
 This replication package contains all the data and scripts used to extract and analyze architectural metrics from microservice-based projects.
 
 ---
 
-### 📄 Script
+## 📄 Script
 - **[`Tesi-metrics-extractor.py`](./Tesi-metrics-extractor.py)**  
   Python script used to extract software metrics from the results of the Understand and Arcan analyses.
 ---
 
-### Analyses   
+## Analyses   
 The five remaining packages contain analyses conducted with the Arcan and Understand tools, in *toolName*-*projectName*-*iteration*.xlsx format. There are no Arcan reports for projects that have zero remaining smells in the final iteration. 
 The folder structure is as follows:
 ```
@@ -35,7 +33,8 @@ The folder structure is as follows:
 │   ├───ref6 HL
 │   ├───ref7 HL
 │   ├───ref8 HL
-│   └───ref9 HL
+|   ├───ref9 HL
+│   └───ref10 HL
 ├───RYC
 │   ├───base
 │   └───ref1 UD
